@@ -1,53 +1,53 @@
-@echo off
-rem Ìá¹©WindowsÏÂnginxµÄÆô¶¯£¬ÖØÆô£¬¹Ø±Õ¹¦ÄÜ
+ï»¿@echo off
+rem æä¾›Windowsä¸‹nginxçš„å¯åŠ¨ï¼Œé‡å¯ï¼Œå…³é—­åŠŸèƒ½
  
 echo ==================begin========================
  
 cls 
-::ngxin ËùÔÚµÄÅÌ·û
+::ngxin æ‰€åœ¨çš„ç›˜ç¬¦
 set NGINX_PATH=D:
  
-::nginx ËùÔÚÄ¿Â¼
+::nginx æ‰€åœ¨ç›®å½•
 set NGINX_DIR=D:\Programs\nginx-1.14.2\
 color 0a 
-TITLE Nginx ·þÎñ¹ÜÀí
+TITLE Nginx æœåŠ¡ç®¡ç†
 
 CLS 
  
 echo. 
-echo. ** Nginx ¹ÜÀí³ÌÐò  *** 
+echo. ** Nginx ç®¡ç†ç¨‹åº  *** 
 echo. 
  
 :MENU 
  
-echo. ***** nginx ½ø³Ìlist ****** 
+echo. ***** nginx è¿›ç¨‹list ****** 
 ::tasklist|findstr /i "nginx.exe"
 tasklist /fi "imagename eq nginx.exe"
  
 echo. 
  
     if ERRORLEVEL 1 (
-        echo nginx.exe²»´æÔÚ
+        echo nginx.exeä¸å­˜åœ¨
     ) else (
-        echo nginx.exe´æÔÚ
+        echo nginx.exeå­˜åœ¨
     )
  
 echo. 
 ::*************************************************************************************************************
 echo. 
-	echo.  [1] Æô¶¯Nginx  
-	echo.  [2] ¹Ø±ÕNginx  
-	echo.  [3] ÖØÆôNginx 
-	echo.  [4] Ë¢ÐÂ¿ØÖÆÌ¨  
-	echo.  [5] ÖØÐÂ¼ÓÔØNginxÅäÖÃÎÄ¼þ
-	echo.  [6] ¼ì²é²âÊÔnginxÅäÖÃÎÄ¼þ
-	echo.  [7] ²é¿´nginx version
-	echo.  [8] ´ò¿ª´íÎóÈÕÖ¾
-	echo.  [9] É¾³ý´íÎóÈÕÖ¾
-	echo.  [0] ÍË ³ö 
+	echo.  [1] å¯åŠ¨Nginx  
+	echo.  [2] å…³é—­Nginx  
+	echo.  [3] é‡å¯Nginx 
+	echo.  [4] åˆ·æ–°æŽ§åˆ¶å°  
+	echo.  [5] é‡æ–°åŠ è½½Nginxé…ç½®æ–‡ä»¶
+	echo.  [6] æ£€æŸ¥æµ‹è¯•nginxé…ç½®æ–‡ä»¶
+	echo.  [7] æŸ¥çœ‹nginx version
+	echo.  [8] æ‰“å¼€é”™è¯¯æ—¥å¿—
+	echo.  [9] åˆ é™¤é”™è¯¯æ—¥å¿—
+	echo.  [0] é€€ å‡º 
 echo. 
  
-echo.ÇëÊäÈëÑ¡ÔñµÄÐòºÅ:
+echo.è¯·è¾“å…¥é€‰æ‹©çš„åºå·:
 set /p ID=
 	IF "%id%"=="1" GOTO start 
 	IF "%id%"=="2" GOTO stop 
@@ -62,63 +62,63 @@ set /p ID=
 PAUSE 
  
 ::*************************************************************************************************************
-::Æô¶¯
+::å¯åŠ¨
 :start 
 	call :startNginx
 	GOTO MENU
  
-::Í£Ö¹
+::åœæ­¢
 :stop 
 	call :shutdownNginx
 	GOTO MENU
  
-::ÖØÆô
+::é‡å¯
 :restart 
 	call :shutdownNginx
 	call :startNginx
 	GOTO MENU
  
-::¼ì²é²âÊÔÅäÖÃÎÄ¼þ
+::æ£€æŸ¥æµ‹è¯•é…ç½®æ–‡ä»¶
 :checkConf 
 	call :checkConfNginx
 	GOTO MENU
  
-::ÖØÐÂ¼ÓÔØNginxÅäÖÃÎÄ¼þ
+::é‡æ–°åŠ è½½Nginxé…ç½®æ–‡ä»¶
 :reloadConf 
     call :checkConfNginx
 	call :reloadConfNginx
 	GOTO MENU
 	
-::ÏÔÊ¾nginx°æ±¾
+::æ˜¾ç¤ºnginxç‰ˆæœ¬
 :showVersion 
     call :showVersionNginx
 	GOTO MENU	
 
-::´ò¿ª´íÎóÈÕÖ¾
+::æ‰“å¼€é”™è¯¯æ—¥å¿—
 :openErrorLog 
     call :openErrorLogNginx
 	GOTO MENU	
 
-::É¾³ý´íÎóÈÕÖ¾
+::åˆ é™¤é”™è¯¯æ—¥å¿—
 :delErrorLog 
     call :delErrorLogNginx
 	GOTO MENU
 	
 ::*************************************************************************************
-::µ×²ã
+::åº•å±‚
 ::*************************************************************************************
 :shutdownNginx
 	echo. 
-	echo.¹Ø±ÕNginx...... 
+	echo.å…³é—­Nginx...... 
 	taskkill /F /IM nginx.exe > nul
-	echo.OK,¹Ø±ÕËùÓÐnginx ½ø³Ì
+	echo.OK,å…³é—­æ‰€æœ‰nginx è¿›ç¨‹
 	goto :eof
  
 :startNginx
 	echo. 
-	echo.Æô¶¯Nginx...... 
+	echo.å¯åŠ¨Nginx...... 
 	IF NOT EXIST "%NGINX_DIR%nginx.exe" (
-        echo "%NGINX_DIR%nginx.exe"²»´æÔÚ
+        echo "%NGINX_DIR%nginx.exe"ä¸å­˜åœ¨
         goto :eof
      )
  
@@ -135,9 +135,9 @@ PAUSE
  
 :checkConfNginx
 	echo. 
-	echo.¼ì²é²âÊÔ nginx ÅäÖÃÎÄ¼þ...... 
+	echo.æ£€æŸ¥æµ‹è¯• nginx é…ç½®æ–‡ä»¶...... 
 	IF NOT EXIST "%NGINX_DIR%nginx.exe" (
-        echo "%NGINX_DIR%nginx.exe"²»´æÔÚ
+        echo "%NGINX_DIR%nginx.exe"ä¸å­˜åœ¨
         goto :eof
      )
  
@@ -147,12 +147,12 @@ PAUSE
  
 	goto :eof
 	
-::ÖØÐÂ¼ÓÔØ nginx ÅäÖÃÎÄ¼þ
+::é‡æ–°åŠ è½½ nginx é…ç½®æ–‡ä»¶
 :reloadConfNginx
 	echo. 
-	echo.ÖØÐÂ¼ÓÔØ nginx ÅäÖÃÎÄ¼þ...... 
+	echo.é‡æ–°åŠ è½½ nginx é…ç½®æ–‡ä»¶...... 
 	IF NOT EXIST "%NGINX_DIR%nginx.exe" (
-        echo "%NGINX_DIR%nginx.exe"²»´æÔÚ
+        echo "%NGINX_DIR%nginx.exe"ä¸å­˜åœ¨
         goto :eof
      )
  
@@ -162,7 +162,7 @@ PAUSE
  
 	goto :eof
 	
-::ÏÔÊ¾nginx°æ±¾
+::æ˜¾ç¤ºnginxç‰ˆæœ¬
 :showVersionNginx
 	echo. 
 	%NGINX_PATH% 
@@ -170,19 +170,19 @@ PAUSE
 	nginx -V
  	goto :eof
 
-::´ò¿ª´íÎóÈÕÖ¾
+::æ‰“å¼€é”™è¯¯æ—¥å¿—
 :openErrorLogNginx
 	echo. 
-	echo.´ò¿ª´íÎóÈÕÖ¾...... 
+	echo.æ‰“å¼€é”™è¯¯æ—¥å¿—...... 
 	%NGINX_PATH% 
 	cd "%NGINX_DIR%"  
 	start logs/error.log
 	goto :eof
 
-::É¾³ý´íÎóÈÕÖ¾
+::åˆ é™¤é”™è¯¯æ—¥å¿—
 :delErrorLogNginx
 	echo. 
-	echo.É¾³ý´íÎóÈÕÖ¾...... 
+	echo.åˆ é™¤é”™è¯¯æ—¥å¿—...... 
 	%NGINX_PATH% 
 	cd "%NGINX_DIR%"  
 	del logs\error.log
